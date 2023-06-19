@@ -6,11 +6,11 @@ namespace Finance.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class StockInfoController : ControllerBase
+public class StockInfosController : ControllerBase
 {
     private readonly IStockInfoService _stockInfoService;
 
-    public StockInfoController(IStockInfoService stockInfoService)
+    public StockInfosController(IStockInfoService stockInfoService)
     {
         _stockInfoService = stockInfoService;
     }
