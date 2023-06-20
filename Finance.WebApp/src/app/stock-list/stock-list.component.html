@@ -1,8 +1,8 @@
 <h1>Stock Infos:</h1>
 <div class="card-container">
-    <div *ngFor="let s of stockInfos$ | async" class="card">
-        <app-stock-info [stockInfo]="s"></app-stock-info>
-    </div>
+  <div *ngFor="let s of stockInfos$ | async" class="card">
+    <app-stock-info [stockInfo]="s"></app-stock-info>
+  </div>
 </div>
 
 <button class="add-button" (click)="openAddStockInfoPopup()">Add</button>
