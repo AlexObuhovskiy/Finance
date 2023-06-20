@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { StockInfoResponseDto } from '../models/stock-info-dto.model';
+import { StockInfoDto, StockInfoResponseDto } from '../models/stock-info-dto.model';
 import { StockInfoService } from '../services/stock-info.service';
 
 @Component({
@@ -10,10 +10,24 @@ import { StockInfoService } from '../services/stock-info.service';
 })
 export class StockListComponent implements OnInit {
   stockInfos$!: Observable<StockInfoResponseDto[]>;
+  isAddPopupOpen = false;
 
   constructor(private stockInfoService: StockInfoService) { }
 
   ngOnInit() {
     this.stockInfos$ = this.stockInfoService.getStockInfos();
+  }
+
+  openAddStockInfoPopup() {
+    this.isAddPopupOpen = true;
+  }
+
+  closeAddStockInfoPopup() {
+    this.isAddPopupOpen = false;
+  }
+
+  addStockInfo(stockInfo: StockInfoDto) {
+    // Implement the logic to add new stock info using the stockInfoService
+    // and update the stockInfos$ observable accordingly
   }
 }

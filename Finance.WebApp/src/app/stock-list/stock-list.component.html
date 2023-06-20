@@ -4,3 +4,7 @@
         <app-stock-info [stockInfo]="s"></app-stock-info>
     </div>
 </div>
+
+<button class="add-button" (click)="openAddStockInfoPopup()">Add</button>
+
+<app-add-stock-info-popup [(isOpen)]="isAddPopupOpen" (addStockInfo)="addStockInfo($event)"></app-add-stock-info-popup>
