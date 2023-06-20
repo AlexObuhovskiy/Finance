@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { StockInfoDto } from '../models/stock-info-dto.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { StockInfoDto } from '../../models/stock-info-dto.model';
 
 @Component({
   selector: 'app-add-stock-info-popup',
@@ -7,14 +7,10 @@ import { StockInfoDto } from '../models/stock-info-dto.model';
   styleUrls: ['./add-stock-info-popup.component.less']
 })
 export class AddStockInfoPopupComponent {
-  @Output() addStockInfo = new EventEmitter<StockInfoDto>();
+  @Output() submitStockInfo = new EventEmitter<StockInfoDto>();
   @Output() isOpenChange = new EventEmitter<boolean>();
   @Input() isOpen = false;
   @Input() model: StockInfoDto = {} as StockInfoDto;
-
-  open() {
-    this.isOpen = true;
-  }
 
   close() {
     this.isOpen = false;
@@ -24,7 +20,11 @@ export class AddStockInfoPopupComponent {
 
   submitForm(stockInfo: StockInfoDto) {
     debugger;
-    this.addStockInfo.emit(stockInfo);
+    const purchaseDate = new Date(stockInfo.purchaseDate);
+    const stockInfoData = {
+      ...stockInfo, purchaseDate: new Date(purchaseDate.getTime() - purchaseDate.getTimezoneOffset() * 60000)
+    };
+    this.submitStockInfo.emit(stockInfoData);
     this.close();
   }
 }

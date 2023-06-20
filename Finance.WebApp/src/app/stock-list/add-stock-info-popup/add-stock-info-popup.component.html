@@ -31,13 +31,12 @@
         </div>
         <div class="form-group">
           <label for="purchaseDate">Purchase date</label>
-          <div class="input-group">
-            <input class="form-control" id="purchaseDate" placeholder="yyyy-mm-dd" name="purchaseDate"
-              [(ngModel)]="model.purchaseDate" ngbDatepicker #d="ngbDatepicker" #purchaseDate="ngModel" required />
-            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-              <i class="bi bi-calendar3"></i>
-            </button>
-          </div>
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" id="purchaseDate" placeholder="Choose a date" name="purchaseDate"
+              [(ngModel)]="model.purchaseDate" #purchaseDate="ngModel" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
           <div *ngIf="purchaseDate.invalid && (purchaseDate.dirty || purchaseDate.touched)" class="error-message">
             Purchase date is required
           </div>
