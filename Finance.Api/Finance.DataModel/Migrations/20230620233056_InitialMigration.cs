@@ -17,9 +17,9 @@ namespace Finance.DataModel.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TickerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PurchasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PurchasePrice = table.Column<decimal>(type: "decimal(18,5)", precision: 18, scale: 5, nullable: false),
                     PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Quantity = table.Column<decimal>(type: "decimal(18,5)", precision: 18, scale: 5, nullable: false)
                 },
                 constraints: table =>
                 {

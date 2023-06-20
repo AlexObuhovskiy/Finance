@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Finance.DataModel.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230619183754_InitialMigration")]
+    [Migration("20230620233056_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -35,10 +35,12 @@ namespace Finance.DataModel.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("PurchasePrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 5)
+                        .HasColumnType("decimal(18,5)");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 5)
+                        .HasColumnType("decimal(18,5)");
 
                     b.Property<string>("TickerName")
                         .IsRequired()

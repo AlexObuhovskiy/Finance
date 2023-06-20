@@ -32,10 +32,12 @@ namespace Finance.DataModel.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("PurchasePrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 5)
+                        .HasColumnType("decimal(18,5)");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 5)
+                        .HasColumnType("decimal(18,5)");
 
                     b.Property<string>("TickerName")
                         .IsRequired()
