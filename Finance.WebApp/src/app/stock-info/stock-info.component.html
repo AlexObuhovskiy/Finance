@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-header">
+      <span>Ticker: {{ stockInfo.tickerName }}</span>
+    </div>
+    <div class="card-body">
+      <div class="card-info">
+        <span>Quantity: {{ stockInfo.quantity }}</span>
+        <span>Purchase price: {{ stockInfo.purchasePrice }}</span>
+        <span>Purchase date: {{ stockInfo.purchaseDate | date : 'medium' }}</span>
+      </div>
+    </div>
+  </div>
+  
