@@ -10,7 +10,7 @@ public interface IStockInfoService
 {
     Task<List<StockInfoResponseDto>> GetStockInfosAsync();
     Task<StockInfoResponseDto?> GetStockInfoAsync(Guid id);
-    Task<Guid> CreateStockInfoAsync(StockInfoDto stockInfoDto);
+    Task<StockInfoResponseDto> CreateStockInfoAsync(StockInfoDto stockInfoDto);
     Task<bool> UpdateStockInfoAsync(Guid id, StockInfoDto updatedStockInfo);
     Task<bool> DeleteStockInfoAsync(Guid id);
 }
@@ -44,13 +44,13 @@ public class StockInfoService : IStockInfoService
         return _mapper.Map<StockInfoResponseDto>(stockInfo);
     }
 
-    public async Task<Guid> CreateStockInfoAsync(StockInfoDto stockInfoDto)
+    public async Task<StockInfoResponseDto> CreateStockInfoAsync(StockInfoDto stockInfoDto)
     {
         var stockInfo = _mapper.Map<StockInfo>(stockInfoDto);
         await _dbContext.Set<StockInfo>().AddAsync(stockInfo);
         await _dbContext.SaveChangesAsync();
 
-        return stockInfo.Id;
+        return _mapper.Map<StockInfoResponseDto>(stockInfo);
     }
 
     public async Task<bool> UpdateStockInfoAsync(Guid id, StockInfoDto updatedStockInfo)

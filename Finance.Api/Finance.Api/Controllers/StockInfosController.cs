@@ -39,9 +39,13 @@ public class StockInfosController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateStockInfo(StockInfoDto stockInfo)
     {
-        var id = await _stockInfoService.CreateStockInfoAsync(stockInfo);
+        var stockInfoResponse = await _stockInfoService
+            .CreateStockInfoAsync(stockInfo);
 
-        return CreatedAtAction(nameof(GetStockInfo), new { id }, stockInfo);
+        return CreatedAtAction(
+            nameof(GetStockInfo),
+            new { id = stockInfoResponse.Id },
+            stockInfoResponse);
     }
 
     [HttpPut("{id:Guid}")]
