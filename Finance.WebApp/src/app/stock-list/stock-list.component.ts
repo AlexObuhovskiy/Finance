@@ -1,31 +1,33 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { StockInfoDto, StockInfoResponseDto } from '../models/stock-info-dto.model';
-import { StockInfoService } from '../services/stock-info.service';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { StockInfoDto, StockInfoResponseDto } from './store/stock-info-dto.model';
 import { ChangeStatuses } from '../enums/change-statuses';
+import { Store, select } from '@ngrx/store';
+import { selectStockInfos } from './store/stock-info.selector';
+import {
+  invokeCreateStockInfoAPI,
+  invokeDeleteStockInfoAPI,
+  invokeStockInfosAPI,
+  invokeUpdateStockInfoAPI
+} from './store/stock-info.action';
 
 @Component({
   selector: 'app-stock-list',
   templateUrl: './stock-list.component.html',
   styleUrls: ['./stock-list.component.less']
 })
-export class StockListComponent implements OnInit, OnDestroy {
+export class StockListComponent implements OnInit {
   private modelStatus!: ChangeStatuses;
-  ddd: any;
-
-  stockInfos$!: Observable<StockInfoResponseDto[]>;
-  createSubscription: Subscription = new Subscription();
+  stockInfos$: Observable<StockInfoResponseDto[]> = this.store.pipe(select(selectStockInfos));
   isAddPopupOpen = false;
   currentModel = {} as StockInfoResponseDto;
 
-  constructor(private stockInfoService: StockInfoService) { }
+  constructor(
+    private store: Store
+  ) { }
 
   async ngOnInit() {
-    this.refreshStockInfos();
-  }
-
-  ngOnDestroy(): void {
-    this.createSubscription.unsubscribe();
+    this.store.dispatch(invokeStockInfosAPI());
   }
 
   openAddStockInfoPopup() {
@@ -41,18 +43,8 @@ export class StockListComponent implements OnInit, OnDestroy {
   }
 
   deleteStockInfo(stockInfo: StockInfoResponseDto) {
-    this.createSubscription.add(
-      this.stockInfoService.deleteStockInfo(stockInfo.id)
-        .subscribe({
-          next: response => {
-            console.log('Stock info deleted successfully', response);
-            this.refreshStockInfos();
-          },
-          error: error => {
-            console.error('Failed to delete stock info', error);
-          }
-        })
-    );
+    const id = stockInfo.id;
+    this.store.dispatch(invokeDeleteStockInfoAPI({ id }));
   }
 
   closeAddStockInfoPopup() {
@@ -62,38 +54,17 @@ export class StockListComponent implements OnInit, OnDestroy {
   submitStockInfo(stockInfo: StockInfoDto) {
     switch (this.modelStatus) {
       case ChangeStatuses.Create:
-        this.createSubscription.add(
-          this.stockInfoService.createStockInfo(stockInfo)
-            .subscribe({
-              next: response => {
-                console.log('Stock info created successfully', response);
-                this.refreshStockInfos();
-              },
-              error: error => {
-                console.error('Failed to create stock info', error);
-              }
-            })
+        this.store.dispatch(
+          invokeCreateStockInfoAPI({ newStockInfo: stockInfo as StockInfoResponseDto })
         );
         break;
 
       case ChangeStatuses.Update:
-        this.createSubscription.add(
-          this.stockInfoService.updateStockInfo(this.currentModel.id, stockInfo)
-            .subscribe({
-              next: response => {
-                console.log('Stock info update successfully', response);
-                this.refreshStockInfos();
-              },
-              error: error => {
-                console.error('Failed to update stock info', error);
-              }
-            })
+        const id = this.currentModel.id;
+        this.store.dispatch(
+          invokeUpdateStockInfoAPI({ id, stockInfo: stockInfo as StockInfoResponseDto })
         );
         break;
     }
-  }
-
-  private refreshStockInfos() {
-    this.stockInfos$ = this.stockInfoService.getStockInfos();
   }
 }

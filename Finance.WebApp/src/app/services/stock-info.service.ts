@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { StockInfoDto, StockInfoResponseDto } from '../models/stock-info-dto.model';
+import { StockInfoDto, StockInfoResponseDto } from '../stock-list/store/stock-info-dto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StockInfoService {
-  private baseUrl = 'https://localhost:7236/api/stockinfos';
+  private readonly baseUrl = 'https://localhost:7236/api/stockinfos';
 
   constructor(private http: HttpClient) { }
 

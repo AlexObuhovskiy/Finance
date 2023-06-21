@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StockInfoDto } from '../../models/stock-info-dto.model';
+import { StockInfoDto } from '../store/stock-info-dto.model';
 
 @Component({
   selector: 'app-add-stock-info-popup',
