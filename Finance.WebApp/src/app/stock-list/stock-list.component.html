@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<button class="add-button" (click)="openAddStockInfoPopup()">Add</button>
+<button class="add-button" (click)="openAddStockInfoPopup()"><i class="bi bi-plus"></i></button>
 
 <app-add-stock-info-popup [(isOpen)]="isAddPopupOpen" [model]="currentModel"
   (submitStockInfo)="submitStockInfo($event)"></app-add-stock-info-popup>
