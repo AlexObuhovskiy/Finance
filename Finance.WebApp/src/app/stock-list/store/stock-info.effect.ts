@@ -13,7 +13,7 @@ import {
   invokeDeleteStockInfoAPI,
   deleteStockInfoAPISuccess
 } from './stock-info.action';
-import { selectStockInfos } from './stock-info.selector';
+import { selectStockInfoState } from './stock-info.selector';
 import { Appstate } from 'src/app/shared/store/appstate';
 import { setAPIStatus } from 'src/app/shared/store/app.action';
 
@@ -29,9 +29,9 @@ export class StockInfoEffect {
   loadAllStockInfos$ = createEffect(() =>
     this.actions$.pipe(
       ofType(invokeStockInfosAPI),
-      withLatestFrom(this.store.pipe(select(selectStockInfos))),
+      withLatestFrom(this.store.pipe(select(selectStockInfoState))),
       mergeMap(([, stockInfoformStore]) => {
-        if (stockInfoformStore.length > 0) {
+        if (stockInfoformStore.stockInfos.length > 0) {
           return EMPTY;
         }
         return this.stockInfoService

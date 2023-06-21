@@ -1,4 +1,8 @@
-import { createFeatureSelector } from '@ngrx/store';
-import { StockInfoResponseDto } from './stock-info-dto.model';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { StockInfoStoreModel } from './stock-info-store.model';
  
-export const selectStockInfos = createFeatureSelector<StockInfoResponseDto[]>('stockInfos');
+export const selectStockInfoState = createFeatureSelector<StockInfoStoreModel>('stockInfos');
+
+export const selectStockInfos = createSelector(selectStockInfoState, (state: StockInfoStoreModel) => {
+  return state.stockInfos;
+})

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { StockInfoDto, StockInfoResponseDto } from '../stock-list/store/stock-info-dto.model';
+import { StockInfoDto } from '../stock-list/store/stock-info-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +11,12 @@ export class StockInfoService {
 
   constructor(private http: HttpClient) { }
 
-  getStockInfos(): Observable<StockInfoResponseDto[]> {
-    return this.http.get<StockInfoResponseDto[]>(this.baseUrl);
+  getStockInfos(): Observable<StockInfoDto[]> {
+    return this.http.get<StockInfoDto[]>(this.baseUrl);
   }
 
-  getStockInfo(id: string): Observable<StockInfoResponseDto> {
-    return this.http.get<StockInfoResponseDto>(`${this.baseUrl}/${id}`);
+  getStockInfo(id: string): Observable<StockInfoDto> {
+    return this.http.get<StockInfoDto>(`${this.baseUrl}/${id}`);
   }
 
   createStockInfo(stockInfo: StockInfoDto): Observable<any> {

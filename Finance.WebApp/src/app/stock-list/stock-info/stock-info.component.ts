@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { StockInfoResponseDto } from '../store/stock-info-dto.model';
+import { StockInfoDto } from '../store/stock-info-dto.model';
 
 @Component({
   selector: 'app-stock-info',
@@ -7,9 +7,9 @@ import { StockInfoResponseDto } from '../store/stock-info-dto.model';
   styleUrls: ['./stock-info.component.less']
 })
 export class StockInfoComponent {
-  @Input() stockInfo!: StockInfoResponseDto;
-  @Output() editClick = new EventEmitter<StockInfoResponseDto>();
-  @Output() deleteClick = new EventEmitter<StockInfoResponseDto>();
+  @Input() stockInfo!: StockInfoDto;
+  @Output() editClick = new EventEmitter<StockInfoDto>();
+  @Output() deleteClick = new EventEmitter<StockInfoDto>();
 
   editStockInfo() {
     this.editClick.emit(this.stockInfo);

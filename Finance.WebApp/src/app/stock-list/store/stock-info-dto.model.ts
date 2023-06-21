@@ -1,8 +1,5 @@
-export interface StockInfoResponseDto extends StockInfoDto {
-  id: string;
-}
-
 export interface StockInfoDto {
+  id: string;
   tickerName: string;
   purchasePrice: number;
   quantity: number;
