@@ -14,7 +14,6 @@ export class RemoveStockConfirmationPopupComponent {
 
   close() {
     this.isOpen = false;
-    this.model = {} as StockInfoDto;
     this.closePopup.emit();
   }
 

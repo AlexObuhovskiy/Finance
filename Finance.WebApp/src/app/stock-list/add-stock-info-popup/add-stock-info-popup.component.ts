@@ -19,7 +19,6 @@ export class AddStockInfoPopupComponent {
   }
 
   submitForm(stockInfo: StockInfoDto) {
-    debugger;
     const purchaseDate = new Date(stockInfo.purchaseDate);
     const stockInfoData = {
       ...stockInfo, purchaseDate: new Date(purchaseDate.getTime() - purchaseDate.getTimezoneOffset() * 60000)

@@ -1,4 +1,5 @@
 <div class="stock-list-container">
+  <button class="add-button" (click)="openAddStockInfoPopup()"><i class="bi bi-plus"></i></button>
   <h1 class="gpt-header">Stock Infos:</h1>
   <div class="card-container">
     <div *ngFor="let s of stockInfos$ | async" class="card">
@@ -6,13 +7,10 @@
         (deleteClick)="askConfirmDeleteStockInfo($event)"></app-stock-info>
     </div>
   </div>
-
   <div class="total-purchase">
     <span class="total-purchase-label">Total purchase sum:</span>
     <span class="total-purchase-value">{{ totalPurchasePrice$ | async }}</span>
   </div>
-
-  <button class="add-button" (click)="openAddStockInfoPopup()"><i class="bi bi-plus"></i></button>
 </div>
 
 <app-add-stock-info-popup [isOpen]="isAddPopupOpen" [model]="currentModel" (closePopup)="closeAddStockInfoPopup()"
