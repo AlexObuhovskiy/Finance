@@ -16,6 +16,12 @@ public interface IGoogleSheetsService
 
 public class GoogleSheetsService : IGoogleSheetsService
 {
+    private const string RangeToTake = "data1!A:B";
+    private const string ApplicationName = "Desktop client 1";
+    private const string User = "user";
+    private const string DoNotGetCultureInfo = "no";
+    private const string FolderName = "MyAppsToken";
+
     private readonly IOptions<GoogleSheetsOptions> _googleSheetsOptions;
 
     public GoogleSheetsService(IOptions<GoogleSheetsOptions> googleSheetsOptions)
@@ -26,7 +32,10 @@ public class GoogleSheetsService : IGoogleSheetsService
     public async Task<StocksPriceResponseDto> GetRealStockPrices()
     {
         using var sheetsService = await GetSheetsService();
-        var getRequest = sheetsService.Spreadsheets.Values.Get("1yD9mbEH7orc-KV-PpBBx6enLjkoLY9U1bVRxbIn2rrk", "data1!A:B");
+        var getRequest = sheetsService.Spreadsheets.Values.Get(
+            _googleSheetsOptions.Value.SpreadSheetId,
+            RangeToTake);
+
         System.Net.ServicePointManager.ServerCertificateValidationCallback =
             (_, _, _, _) => true;
 
@@ -43,8 +52,8 @@ public class GoogleSheetsService : IGoogleSheetsService
                 !decimal.TryParse(
                     rowStrings[1],
                     NumberStyles.Any,
-                    CultureInfo.GetCultureInfo("no"),
-                    out decimal price))
+                    CultureInfo.GetCultureInfo(DoNotGetCultureInfo),
+                    out var price))
             {
                 continue;
             }
@@ -69,15 +78,15 @@ public class GoogleSheetsService : IGoogleSheetsService
                 ClientSecret = _googleSheetsOptions.Value.ClientSecret
             },
             scopes,
-            "user",
+            User,
             CancellationToken.None,
-            new FileDataStore("MyAppsToken")
+            new FileDataStore(FolderName)
         );
 
         var service = new SheetsService(new BaseClientService.Initializer()
         {
             HttpClientInitializer = httpClientInitializer,
-            ApplicationName = "Desktop client 1"
+            ApplicationName = ApplicationName
         });
 
         return service;
