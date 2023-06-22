@@ -1,10 +1,30 @@
 <div class="stocks-table-container">
   <div class="table-header">
     <span class="header-cell">Ticker name</span>
+    <span class="header-cell">Total quantity</span>
     <span class="header-cell">Total price</span>
+    <span class="header-cell">Price for now</span>
+    <span class="header-cell">Total price for now</span>
+    <span class="header-cell">Total income</span>
+    <span class="header-cell">Total %</span>
   </div>
   <div *ngFor="let g of groupedStockInfos$ | async" class="table-row">
     <span class="table-cell">{{ g.tickerName }}</span>
-    <span class="table-cell">{{ g.totalPrice }}</span>
+    <span class="table-cell">{{ g.quantity }}</span>
+    <span class="table-cell">
+      {{ g.totalPrice | number:'1.2-2' }}
+    </span>
+    <span class="table-cell">{{ g.priceNow }}</span>
+    <span class="table-cell">
+      {{ (g.priceNow * g.quantity) | number:'1.2-2' }}
+    </span>
+    <span class="table-cell"
+      [ngClass]="{'negative-value': (g.priceNow * g.quantity - g.totalPrice) < 0, 'positive-value': (g.priceNow * g.quantity - g.totalPrice) >= 0}">
+      {{ (g.priceNow * g.quantity - g.totalPrice) | number:'1.2-2' }}
+    </span>
+    <span class="table-cell"
+      [ngClass]="{'negative-value': (g.priceNow * g.quantity - g.totalPrice) < 0, 'positive-value': (g.priceNow * g.quantity - g.totalPrice) >= 0}">
+      {{ (((g.priceNow * g.quantity)/g.totalPrice - 1)*100) | number:'1.2-2' }}%
+    </span>
   </div>
 </div>

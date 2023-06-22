@@ -11,17 +11,21 @@ import {
   invokeUpdateStockInfoAPI,
   updateStockInfoAPISuccess,
   invokeDeleteStockInfoAPI,
-  deleteStockInfoAPISuccess
+  deleteStockInfoAPISuccess,
+  invokeRefreshCurrentStockPricesAPI,
+  refreshCurrentStockPricesAPISuccess
 } from './stock-info.action';
 import { selectStockInfoState } from './stock-info.selector';
 import { Appstate } from 'src/app/shared/store/appstate';
 import { setAPIStatus } from 'src/app/shared/store/app.action';
+import { GoogleSheetsService } from 'src/app/services/google-sheets.service';
 
 @Injectable()
 export class StockInfoEffect {
   constructor(
     private actions$: Actions,
     private stockInfoService: StockInfoService,
+    private googleSheetsService: GoogleSheetsService,
     private store: Store,
     private appStore: Store<Appstate>
   ) { }
@@ -103,4 +107,19 @@ export class StockInfoEffect {
       })
     );
   });
+
+  refreshCurrentStockPricesAPI$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(invokeRefreshCurrentStockPricesAPI),
+      withLatestFrom(this.store.pipe(select(selectStockInfoState))),
+      mergeMap(([, stockInfoformStore]) => {
+        if (stockInfoformStore.currentStockPrices.length > 0) {
+          return EMPTY;
+        }
+        return this.googleSheetsService
+          .refreshCurrentStockPrices()
+          .pipe(map((data) => refreshCurrentStockPricesAPISuccess({ currentStockPrices: data.stockPrices })));
+      })
+    )
+  );
 }

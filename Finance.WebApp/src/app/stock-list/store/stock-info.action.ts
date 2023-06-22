@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { StockInfoDto } from '../../models/stock-info-dto.model';
+import { CurrentStockPrice } from 'src/app/models/current-stock-price.model';
  
 export const invokeStockInfosAPI = createAction(
   '[Stock info API] Invoke Stock infos Fetch API'
@@ -40,3 +41,11 @@ export const deleteStockInfoAPISuccess = createAction(
   props<{ id: string }>()
 );
 
+export const invokeRefreshCurrentStockPricesAPI = createAction(
+  '[Stock info API] Invoke refresh current stock prices API'
+);
+
+export const refreshCurrentStockPricesAPISuccess = createAction(
+  '[Stock info API] refresh current stock prices API Success',
+  props<{ currentStockPrices: CurrentStockPrice[] }>()
+);

@@ -9,7 +9,7 @@
   </div>
   <div class="total-purchase">
     <span class="total-purchase-label">Total purchase sum:</span>
-    <span class="total-purchase-value">{{ totalPurchasePrice$ | async }}</span>
+    <span class="total-purchase-value">{{ totalPurchasePrice$ | async | number:'1.2-2' }}</span>
   </div>
   <app-stocks-table></app-stocks-table>
 </div>
