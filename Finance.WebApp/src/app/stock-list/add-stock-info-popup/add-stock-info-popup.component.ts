@@ -7,18 +7,19 @@ import { StockInfoDto } from '../store/stock-info-dto.model';
   styleUrls: ['./add-stock-info-popup.component.less']
 })
 export class AddStockInfoPopupComponent {
-  @Output() submitStockInfo = new EventEmitter<StockInfoDto>();
-  @Output() isOpenChange = new EventEmitter<boolean>();
   @Input() isOpen = false;
   @Input() model: StockInfoDto = {} as StockInfoDto;
+  @Output() submitStockInfo = new EventEmitter<StockInfoDto>();
+  @Output() closePopup = new EventEmitter<void>();
 
   close() {
     this.isOpen = false;
     this.model = {} as StockInfoDto;
-    this.isOpenChange.emit(this.isOpen);
+    this.closePopup.emit();
   }
 
   submitForm(stockInfo: StockInfoDto) {
+    debugger;
     const purchaseDate = new Date(stockInfo.purchaseDate);
     const stockInfoData = {
       ...stockInfo, purchaseDate: new Date(purchaseDate.getTime() - purchaseDate.getTimezoneOffset() * 60000)

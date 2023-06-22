@@ -21,6 +21,7 @@ export class StockListComponent implements OnInit {
   stockInfos$: Observable<StockInfoDto[]> = this.store.pipe(select(selectStockInfos));
   totalPurchasePrice$: Observable<number> = this.store.pipe(select(selectTotalPurchasePrice));
   isAddPopupOpen = false;
+  isConfirmDeletePopupOpen = false;
   currentModel = {} as StockInfoDto;
 
   constructor(
@@ -37,19 +38,28 @@ export class StockListComponent implements OnInit {
     this.isAddPopupOpen = true;
   }
 
+  closeAddStockInfoPopup() {
+    this.isAddPopupOpen = false;
+  }
+
+  closeConfirmDeletePopup() {
+    this.isConfirmDeletePopupOpen = false;
+  }
+
   editStockInfo(stockInfo: StockInfoDto) {
     this.modelStatus = ChangeStatuses.Update;
     this.currentModel = { ...stockInfo };
     this.isAddPopupOpen = true;
   }
 
-  deleteStockInfo(stockInfo: StockInfoDto) {
-    const id = stockInfo.id;
-    this.store.dispatch(invokeDeleteStockInfoAPI({ id }));
+  askConfirmDeleteStockInfo(stockInfo: StockInfoDto) {
+    this.currentModel = stockInfo;
+    this.isConfirmDeletePopupOpen = true;
   }
 
-  closeAddStockInfoPopup() {
-    this.isAddPopupOpen = false;
+  deleteStockInfo() {
+    const id = this.currentModel.id;
+    this.store.dispatch(invokeDeleteStockInfoAPI({ id }));
   }
 
   submitStockInfo(stockInfo: StockInfoDto) {

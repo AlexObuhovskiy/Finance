@@ -1,0 +1,10 @@
+<app-popup [isOpen]="isOpen" (closePopup)="close()" *ngIf="isOpen">
+  <div class="header" header>
+    <h3>Are you sure you want to delete ticker:</h3>
+    <h2>{{ model.tickerName }}</h2>
+  </div>
+  <div footer>
+    <button class="submit-button" (click)="deleteStockInfo()">Delete</button>
+    <button class="close-button" (click)="close()">Cancel</button>
+  </div>
+</app-popup>

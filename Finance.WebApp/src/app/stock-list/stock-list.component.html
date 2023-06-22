@@ -3,7 +3,7 @@
   <div class="card-container">
     <div *ngFor="let s of stockInfos$ | async" class="card">
       <app-stock-info [stockInfo]="s" (editClick)="editStockInfo($event)"
-        (deleteClick)="deleteStockInfo($event)"></app-stock-info>
+        (deleteClick)="askConfirmDeleteStockInfo($event)"></app-stock-info>
     </div>
   </div>
 
@@ -15,5 +15,8 @@
   <button class="add-button" (click)="openAddStockInfoPopup()"><i class="bi bi-plus"></i></button>
 </div>
 
-<app-add-stock-info-popup [(isOpen)]="isAddPopupOpen" [model]="currentModel"
+<app-add-stock-info-popup [isOpen]="isAddPopupOpen" [model]="currentModel" (closePopup)="closeAddStockInfoPopup()"
   (submitStockInfo)="submitStockInfo($event)"></app-add-stock-info-popup>
+
+<app-remove-stock-confirmation-popup [isOpen]="isConfirmDeletePopupOpen" [model]="currentModel"
+  (closePopup)="closeConfirmDeletePopup()" (delete)="deleteStockInfo()"></app-remove-stock-confirmation-popup>

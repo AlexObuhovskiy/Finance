@@ -20,6 +20,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { stockInfoReducer } from './stock-list/store/stock-info.reducer';
 import { StockInfoEffect } from './stock-list/store/stock-info.effect';
 import { appReducer } from './shared/store/app.reducer';
+import { PopupComponent } from './shared/components/popup/popup.component';
+import { RemoveStockConfirmationPopupComponent } from './stock-list/remove-stock-confirmation-popup/remove-stock-confirmation-popup.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { appReducer } from './shared/store/app.reducer';
     StockInfoComponent,
     StockInfoComponent,
     StockListComponent,
-    AddStockInfoPopupComponent
+    AddStockInfoPopupComponent,
+    PopupComponent,
+    RemoveStockConfirmationPopupComponent
   ],
   imports: [
     BrowserModule,

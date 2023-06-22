@@ -1,51 +1,48 @@
-<div class="popup-overlay" *ngIf="isOpen">
-  <div class="popup-content">
-    <div class="popup-header">
-      <h2>Stock Info</h2>
-      <button class="close-button-x" (click)="close()">X</button>
-    </div>
-    <div class="popup-body">
-      <form (ngSubmit)="submitForm(stockInfoForm.value)" #stockInfoForm="ngForm">
-        <div class="form-group">
-          <label for="tickerName">Ticker name</label>
-          <input type="text" id="tickerName" name="tickerName" [(ngModel)]="model.tickerName" required
-            #tickerName="ngModel">
-          <div *ngIf="tickerName.invalid && (tickerName.dirty || tickerName.touched)" class="error-message">
-            Ticker name is required
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="quantity">Quantity</label>
-          <input type="number" id="quantity" name="quantity" [(ngModel)]="model.quantity" required #quantity="ngModel">
-          <div *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)" class="error-message">
-            Quantity is required
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="purchasePrice">Purchase price</label>
-          <input type="number" id="purchasePrice" name="purchasePrice" [(ngModel)]="model.purchasePrice" required
-            #purchasePrice="ngModel">
-          <div *ngIf="purchasePrice.invalid && (purchasePrice.dirty || purchasePrice.touched)" class="error-message">
-            Purchase price is required
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="purchaseDate">Purchase date</label>
-          <mat-form-field>
-            <input matInput [matDatepicker]="picker" id="purchaseDate" placeholder="Choose a date" name="purchaseDate"
-              [(ngModel)]="model.purchaseDate" #purchaseDate="ngModel" required>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-          <div *ngIf="purchaseDate.invalid && (purchaseDate.dirty || purchaseDate.touched)" class="error-message">
-            Purchase date is required
-          </div>
-        </div>
-        <div class="popup-footer">
-          <button type="submit" [disabled]="stockInfoForm.invalid">Submit</button>
-          <button class="close-button" (click)="close()">Close</button>
-        </div>
-      </form>
-    </div>
+<app-popup [isOpen]="isOpen" (closePopup)="close()" *ngIf="isOpen">
+  <div class="header" header>
+    <h2>Stock Info</h2>
   </div>
-</div>
+  <div class="body" body>
+    <form #stockInfoForm="ngForm">
+      <div class="form-group">
+        <label for="tickerName">Ticker name</label>
+        <input type="text" id="tickerName" name="tickerName" [(ngModel)]="model.tickerName" required
+          #tickerName="ngModel">
+        <div *ngIf="tickerName.invalid && (tickerName.dirty || tickerName.touched)" class="error-message">
+          Ticker name is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" name="quantity" [(ngModel)]="model.quantity" required #quantity="ngModel">
+        <div *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)" class="error-message">
+          Quantity is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="purchasePrice">Purchase price</label>
+        <input type="number" id="purchasePrice" name="purchasePrice" [(ngModel)]="model.purchasePrice" required
+          #purchasePrice="ngModel">
+        <div *ngIf="purchasePrice.invalid && (purchasePrice.dirty || purchasePrice.touched)" class="error-message">
+          Purchase price is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="purchaseDate">Purchase date</label>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" id="purchaseDate" placeholder="Choose a date" name="purchaseDate"
+            [(ngModel)]="model.purchaseDate" #purchaseDate="ngModel" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div *ngIf="purchaseDate.invalid && (purchaseDate.dirty || purchaseDate.touched)" class="error-message">
+          Purchase date is required
+        </div>
+      </div>
+    </form>
+  </div>
+  <div footer>
+    <button type="submit" [disabled]="stockInfoForm.invalid" (click)="submitForm(stockInfoForm.value)">Submit</button>
+    <button class="close-button" (click)="stockInfoForm.reset(); close()">Close</button>
+  </div>
+</app-popup>
