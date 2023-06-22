@@ -1,0 +1,10 @@
+<div class="stocks-table-container">
+  <div class="table-header">
+    <span class="header-cell">Ticker name</span>
+    <span class="header-cell">Total price</span>
+  </div>
+  <div *ngFor="let g of groupedStockInfos$ | async" class="table-row">
+    <span class="table-cell">{{ g.tickerName }}</span>
+    <span class="table-cell">{{ g.totalPrice }}</span>
+  </div>
+</div>

@@ -22,6 +22,7 @@ import { StockInfoEffect } from './stock-list/store/stock-info.effect';
 import { appReducer } from './shared/store/app.reducer';
 import { PopupComponent } from './shared/components/popup/popup.component';
 import { RemoveStockConfirmationPopupComponent } from './stock-list/remove-stock-confirmation-popup/remove-stock-confirmation-popup.component';
+import { StocksTableComponent } from './stock-list/stocks-table/stocks-table.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { RemoveStockConfirmationPopupComponent } from './stock-list/remove-stock
     StockListComponent,
     AddStockInfoPopupComponent,
     PopupComponent,
-    RemoveStockConfirmationPopupComponent
+    RemoveStockConfirmationPopupComponent,
+    StocksTableComponent
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,7 @@
     <span class="total-purchase-label">Total purchase sum:</span>
     <span class="total-purchase-value">{{ totalPurchasePrice$ | async }}</span>
   </div>
+  <app-stocks-table></app-stocks-table>
 </div>
 
 <app-add-stock-info-popup [isOpen]="isAddPopupOpen" [model]="currentModel" (closePopup)="closeAddStockInfoPopup()"

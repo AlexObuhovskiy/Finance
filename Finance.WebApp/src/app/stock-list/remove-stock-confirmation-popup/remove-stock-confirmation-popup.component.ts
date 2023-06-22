@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { StockInfoDto } from '../store/stock-info-dto.model';
+import { StockInfoDto } from '../../models/stock-info-dto.model';
 
 @Component({
   selector: 'app-remove-stock-confirmation-popup',

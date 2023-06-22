@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { StockInfoDto } from './stock-info-dto.model';
+import { StockInfoDto } from '../../models/stock-info-dto.model';
  
 export const invokeStockInfosAPI = createAction(
   '[Stock info API] Invoke Stock infos Fetch API'

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { StockInfoDto } from './store/stock-info-dto.model';
+import { StockInfoDto } from '../models/stock-info-dto.model';
 import { ChangeStatuses } from '../enums/change-statuses';
 import { Store, select } from '@ngrx/store';
 import { selectStockInfos, selectTotalPurchasePrice } from './store/stock-info.selector';
