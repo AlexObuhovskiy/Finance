@@ -176,3 +176,5 @@ testem.log
 .DS_Store
 Thumbs.db
 */Finance.WebApp/.vscode/*
+*/Finance.Api/Finance.Api/appsettings.Development.json
+Finance.Api/Finance.Api/appsettings.development.json
