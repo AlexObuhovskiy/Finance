@@ -6,5 +6,6 @@ export interface StockInfoStoreModel {
   stockInfos: StockInfoDto[],
   groupedStockInfos: GroupedStockInfo[],
   currentStockPrices: CurrentStockPrice[],
-  totalPurchasePrice: number
+  totalPurchasePrice: number,
+  totalPriceForNow: number
 }

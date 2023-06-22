@@ -15,7 +15,8 @@ export const initialState: Readonly<StockInfoStoreModel> = {
   stockInfos: [],
   groupedStockInfos: [],
   currentStockPrices: [],
-  totalPurchasePrice: 0
+  totalPurchasePrice: 0,
+  totalPriceForNow: 0
 };
 
 export const stockInfoReducer = createReducer(
@@ -63,6 +64,7 @@ export const stockInfoReducer = createReducer(
     };
 
     newState.groupedStockInfos = [...getGroupStockInfos(newState.stockInfos, currentStockPrices)];
+    newState.totalPriceForNow = getTotalSumNow(newState.groupedStockInfos);
 
     return newState;
   })
@@ -71,6 +73,13 @@ export const stockInfoReducer = createReducer(
 function getTotalPurchaseSum(stockInfos: StockInfoDto[]) {
   return stockInfos.reduce(
     (sum, current) => sum + (current.purchasePrice * current.quantity),
+    0
+  );
+}
+
+function getTotalSumNow(groupedStockInfo: GroupedStockInfo[]) {
+  return groupedStockInfo.reduce(
+    (sum, current) => sum + (current.priceNow * current.quantity),
     0
   );
 }

@@ -14,3 +14,7 @@ export const selectTotalPurchasePrice = createSelector(selectStockInfoState, (st
 export const selectGroupedStockInfos = createSelector(selectStockInfoState, (state: StockInfoStoreModel) => {
   return state.groupedStockInfos;
 });
+
+export const selectTotalPriceForNow = createSelector(selectStockInfoState, (state: StockInfoStoreModel) => {
+  return state.totalPriceForNow;
+});
