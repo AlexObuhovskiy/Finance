@@ -1,5 +1,4 @@
 import { createReducer, on } from "@ngrx/store";
-import { StockInfoDto } from "./stock-info-dto.model";
 import {
   createStockInfoAPISuccess,
   deleteStockInfoAPISuccess,
@@ -7,9 +6,11 @@ import {
   updateStockInfoAPISuccess
 } from "./stock-info.action";
 import { StockInfoStoreModel } from "./stock-info-store.model";
+import { StockInfoDto } from "./stock-info-dto.model";
 
 export const initialState: Readonly<StockInfoStoreModel> = {
-  stockInfos: []
+  stockInfos: [],
+  totalPurchasePrice: 0
 };
 
 export const stockInfoReducer = createReducer(
@@ -17,7 +18,8 @@ export const stockInfoReducer = createReducer(
   on(stockInfosFetchAPISuccess, (state, { allStockInfos }) => {
     let newState = {
       ...state,
-      stockInfos: allStockInfos
+      stockInfos: allStockInfos,
+      totalPurchasePrice: getTotalPurchaseSum(allStockInfos)
     }
 
     return newState;
@@ -25,6 +27,7 @@ export const stockInfoReducer = createReducer(
   on(createStockInfoAPISuccess, (state, { newStockInfo }) => {
     let newState = { ...state, stockInfos: [...state.stockInfos] };
     newState.stockInfos.push(newStockInfo);
+    newState.totalPurchasePrice = getTotalPurchaseSum(newState.stockInfos)
 
     return newState;
   }),
@@ -32,14 +35,22 @@ export const stockInfoReducer = createReducer(
     let newState = { ...state, stockInfos: [...state.stockInfos] };
     const stockInfoIndex = newState.stockInfos.findIndex(x => x.id === id);
     newState.stockInfos[stockInfoIndex] = { ...stockInfo, id };
+    newState.totalPurchasePrice = getTotalPurchaseSum(newState.stockInfos)
 
     return newState;
   }),
   on(deleteStockInfoAPISuccess, (state, { id }) => {
-    let newState = { ...state, stockInfos: [...state.stockInfos] };
-    const stockInfoIndex = newState.stockInfos.findIndex(x => x.id === id);
-    newState.stockInfos.splice(stockInfoIndex, 1);
+    const newStockInfos = state.stockInfos.filter(x => x.id !== id);
+    let newState = { ...state, stockInfos: newStockInfos };
+    newState.totalPurchasePrice = getTotalPurchaseSum(newState.stockInfos)
 
     return newState;
   })
 );
+
+function getTotalPurchaseSum(stockInfos: StockInfoDto[]) {
+  return stockInfos.reduce(
+    (sum, current) => sum + (current.purchasePrice * current.quantity),
+    0
+  );
+}

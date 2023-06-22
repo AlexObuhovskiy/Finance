@@ -1,12 +1,19 @@
-<h1>Stock Infos:</h1>
-<div class="card-container">
-  <div *ngFor="let s of stockInfos$ | async" class="card">
-    <app-stock-info [stockInfo]="s" (editClick)="editStockInfo($event)"
-      (deleteClick)="deleteStockInfo($event)"></app-stock-info>
+<div class="stock-list-container">
+  <h1 class="gpt-header">Stock Infos:</h1>
+  <div class="card-container">
+    <div *ngFor="let s of stockInfos$ | async" class="card">
+      <app-stock-info [stockInfo]="s" (editClick)="editStockInfo($event)"
+        (deleteClick)="deleteStockInfo($event)"></app-stock-info>
+    </div>
   </div>
-</div>
 
-<button class="add-button" (click)="openAddStockInfoPopup()"><i class="bi bi-plus"></i></button>
+  <div class="total-purchase">
+    <span class="total-purchase-label">Total purchase sum:</span>
+    <span class="total-purchase-value">{{ totalPurchasePrice$ | async }}</span>
+  </div>
+
+  <button class="add-button" (click)="openAddStockInfoPopup()"><i class="bi bi-plus"></i></button>
+</div>
 
 <app-add-stock-info-popup [(isOpen)]="isAddPopupOpen" [model]="currentModel"
   (submitStockInfo)="submitStockInfo($event)"></app-add-stock-info-popup>
