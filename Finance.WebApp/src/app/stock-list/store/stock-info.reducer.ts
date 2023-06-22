@@ -36,6 +36,7 @@ export const stockInfoReducer = createReducer(
     newState.stockInfos.push(newStockInfo);
     newState.totalPurchasePrice = getTotalPurchaseSum(newState.stockInfos);
     newState.groupedStockInfos = getGroupStockInfos(newState.stockInfos, state.currentStockPrices);
+    newState.totalPriceForNow = getTotalSumNow(newState.groupedStockInfos);
 
     return newState;
   }),
@@ -45,6 +46,7 @@ export const stockInfoReducer = createReducer(
     newState.stockInfos[stockInfoIndex] = { ...stockInfo, id };
     newState.totalPurchasePrice = getTotalPurchaseSum(newState.stockInfos);
     newState.groupedStockInfos = getGroupStockInfos(newState.stockInfos, state.currentStockPrices);
+    newState.totalPriceForNow = getTotalSumNow(newState.groupedStockInfos);
 
     return newState;
   }),
@@ -53,6 +55,7 @@ export const stockInfoReducer = createReducer(
     let newState = { ...state, stockInfos: newStockInfos };
     newState.totalPurchasePrice = getTotalPurchaseSum(newState.stockInfos)
     newState.groupedStockInfos = getGroupStockInfos(newState.stockInfos, state.currentStockPrices);
+    newState.totalPriceForNow = getTotalSumNow(newState.groupedStockInfos);
 
     return newState;
   }),
