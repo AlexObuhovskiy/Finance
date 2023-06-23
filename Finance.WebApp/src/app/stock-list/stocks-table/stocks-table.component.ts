@@ -10,12 +10,8 @@ import { invokeRefreshCurrentStockPricesAPI } from '../store/stock-info.action';
   templateUrl: './stocks-table.component.html',
   styleUrls: ['./stocks-table.component.less']
 })
-export class StocksTableComponent implements OnInit {
+export class StocksTableComponent {
   constructor(private store: Store) { }
 
   groupedStockInfos$: Observable<GroupedStockInfo[]> = this.store.pipe(select(selectGroupedStockInfos));
-
-  ngOnInit() {
-    this.store.dispatch(invokeRefreshCurrentStockPricesAPI());
-  }
 }

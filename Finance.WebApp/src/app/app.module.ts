@@ -23,6 +23,7 @@ import { appReducer } from './shared/store/app.reducer';
 import { PopupComponent } from './shared/components/popup/popup.component';
 import { RemoveStockConfirmationPopupComponent } from './stock-list/remove-stock-confirmation-popup/remove-stock-confirmation-popup.component';
 import { StocksTableComponent } from './stock-list/stocks-table/stocks-table.component';
+import { SummaryTableComponent } from './stock-list/summary-table/summary-table.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { StocksTableComponent } from './stock-list/stocks-table/stocks-table.com
     AddStockInfoPopupComponent,
     PopupComponent,
     RemoveStockConfirmationPopupComponent,
-    StocksTableComponent
+    StocksTableComponent,
+    SummaryTableComponent
   ],
   imports: [
     BrowserModule,

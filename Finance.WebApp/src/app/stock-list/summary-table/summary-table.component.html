@@ -1,0 +1,37 @@
+<div class="summary-table-container">
+  <div class="main-table">
+    <span class="main-table-cell main-table-header">Total purchase sum:</span>
+    <span class="main-table-cell main-table-value">{{ totalPurchasePrice$ | async | number:'1.2-2' }}</span>
+  </div>
+  <div class="main-table">
+    <span class="main-table-cell main-table-header">Total amount now:</span>
+    <span class="main-table-cell main-table-value">{{ totalPriceForNow$ | async | number:'1.2-2' }}</span>
+  </div>
+  <div class="main-table">
+    <span class="main-table-cell main-table-header">Total income:</span>
+    <span class="main-table-cell main-table-value"
+      [ngClass]="{'negative-value': (totalIncome < 0), 'positive-value': totalIncome >= 0}">
+      {{ totalIncome | number:'1.2-2' }}
+    </span>
+  </div>
+  <div class="main-table">
+    <span class="main-table-cell main-table-header">Taxes:</span>
+    <span class="main-table-cell main-table-value negative-value">
+      {{ (totalIncome * 0.2) | number:'1.2-2' }}
+    </span>
+  </div>
+  <div class="main-table">
+    <span class="main-table-cell main-table-header">Total %:</span>
+    <span class="main-table-cell main-table-value negative-value"
+    [ngClass]="{'negative-value': (totalIncreasement < 0), 'positive-value': totalIncreasement >= 0}">
+      {{ totalIncreasement | number:'1.2-2' }}%
+    </span>
+  </div>
+  <div class="main-table">
+    <span class="main-table-cell main-table-header">Total NET income:</span>
+    <span class="main-table-cell main-table-value negative-value"
+    [ngClass]="{'negative-value': (totalIncome * 0.8 < 0), 'positive-value': totalIncome * 0.8 >= 0}">
+      {{ (totalIncome * 0.8) | number:'1.2-2' }}
+    </span>
+  </div>
+</div>

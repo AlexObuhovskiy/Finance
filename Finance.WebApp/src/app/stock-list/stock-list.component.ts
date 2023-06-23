@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, combineLatest, map } from 'rxjs';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { StockInfoDto } from '../models/stock-info-dto.model';
 import { ChangeStatuses } from '../enums/change-statuses';
 import { Store, select } from '@ngrx/store';
-import { selectStockInfos, selectTotalPriceForNow, selectTotalPurchasePrice } from './store/stock-info.selector';
+import { selectStockInfos } from './store/stock-info.selector';
 import {
   invokeCreateStockInfoAPI,
   invokeDeleteStockInfoAPI,
-  invokeStockInfosAPI,
   invokeUpdateStockInfoAPI
 } from './store/stock-info.action';
 
@@ -16,25 +15,9 @@ import {
   templateUrl: './stock-list.component.html',
   styleUrls: ['./stock-list.component.less']
 })
-export class StockListComponent implements OnInit {
+export class StockListComponent {
   private modelStatus!: ChangeStatuses;
   stockInfos$: Observable<StockInfoDto[]> = this.store.pipe(select(selectStockInfos));
-  totalPurchasePrice$: Observable<number> = this.store.pipe(select(selectTotalPurchasePrice));
-  totalPriceForNow$: Observable<number> = this.store.pipe(select(selectTotalPriceForNow));
-  totalIncome: number = 0;
-  totalIncreasement: number = 0;
-  totalIncome$: Observable<number> = combineLatest([
-    this.totalPriceForNow$,
-    this.totalPurchasePrice$
-  ]).pipe(
-    map(([totalPriceForNow, totalPurchasePrice]) => totalPriceForNow - totalPurchasePrice)
-  );
-  totalIncreasement$: Observable<number> = combineLatest([
-    this.totalPriceForNow$,
-    this.totalPurchasePrice$
-  ]).pipe(
-    map(([totalPriceForNow, totalPurchasePrice]) => (totalPriceForNow / totalPurchasePrice - 1) * 100)
-  );
   isAddPopupOpen = false;
   isConfirmDeletePopupOpen = false;
   currentModel = {} as StockInfoDto;
@@ -42,12 +25,6 @@ export class StockListComponent implements OnInit {
   constructor(
     private store: Store
   ) { }
-
-  async ngOnInit() {
-    this.store.dispatch(invokeStockInfosAPI());
-    this.totalIncome$.subscribe(x => this.totalIncome = x);
-    this.totalIncreasement$.subscribe(x => this.totalIncreasement = x);
-  }
 
   openAddStockInfoPopup() {
     this.modelStatus = ChangeStatuses.Create;

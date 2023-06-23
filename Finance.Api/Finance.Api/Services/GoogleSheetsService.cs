@@ -108,7 +108,7 @@ public class GoogleSheetsService : IGoogleSheetsService
         var toBeAdded = currentStockPrices
             .Where(x => !allSavedPrices.Any(y =>
                 string.Equals(x.TickerName, y.TickerName, StringComparison.InvariantCultureIgnoreCase)))
-            .Select(x => _mapper.Map<StockMarketInfo>(x))
+            .Select(_mapper.Map<StockMarketInfo>)
             .ToList();
 
         await _dbContext.StockMarketInfos.AddRangeAsync(toBeAdded);
@@ -119,7 +119,7 @@ public class GoogleSheetsService : IGoogleSheetsService
     {
         var allSavedPrices = await _dbContext.StockMarketInfos.ToListAsync();
         var result = allSavedPrices
-            .Select(x => _mapper.Map<CurrentStockPrice>(x))
+            .Select(_mapper.Map<CurrentStockPrice>)
             .ToList();
 
         return result;
