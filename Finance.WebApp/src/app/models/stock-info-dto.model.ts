@@ -4,4 +4,5 @@ export interface StockInfoDto {
   purchasePrice: number;
   quantity: number;
   purchaseDate: Date;
+  currentPrice?: number;
 }

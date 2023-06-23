@@ -14,6 +14,10 @@
       <span>Quantity: {{ stockInfo.quantity }}</span>
       <span>Purchase price: {{ stockInfo.purchasePrice }}</span>
       <span>Purchase date: {{ stockInfo.purchaseDate | date: 'dd-MM-yyyy' }}</span>
+      <span class="card-total-increase"
+        [ngClass]="{'positive-value': totalIncrease >= 0, 'negative-value': totalIncrease < 0}">
+        {{ totalIncrease | number:'1.2-2' }}%
+      </span>
     </div>
   </div>
 </div>

@@ -24,7 +24,7 @@ export const stockInfoReducer = createReducer(
   on(stockInfosFetchAPISuccess, (state, { allStockInfos }) => {
     let newState = {
       ...state,
-      stockInfos: allStockInfos,
+      stockInfos: [...getStockInfosWithCurrentPrice(allStockInfos, state.currentStockPrices)],
       groupedStockInfos: getGroupStockInfos(allStockInfos, state.currentStockPrices),
       totalPurchasePrice: getTotalPurchaseSum(allStockInfos)
     }
@@ -34,6 +34,8 @@ export const stockInfoReducer = createReducer(
   on(createStockInfoAPISuccess, (state, { newStockInfo }) => {
     let newState = { ...state, stockInfos: [...state.stockInfos] };
     newState.stockInfos.push(newStockInfo);
+
+    newState.stockInfos = [...getStockInfosWithCurrentPrice(newState.stockInfos, newState.currentStockPrices)];
     newState.totalPurchasePrice = getTotalPurchaseSum(newState.stockInfos);
     newState.groupedStockInfos = getGroupStockInfos(newState.stockInfos, state.currentStockPrices);
     newState.totalPriceForNow = getTotalSumNow(newState.groupedStockInfos);
@@ -42,8 +44,11 @@ export const stockInfoReducer = createReducer(
   }),
   on(updateStockInfoAPISuccess, (state, { id, stockInfo }) => {
     let newState = { ...state, stockInfos: [...state.stockInfos] };
+
     const stockInfoIndex = newState.stockInfos.findIndex(x => x.id === id);
     newState.stockInfos[stockInfoIndex] = { ...stockInfo, id };
+
+    newState.stockInfos = [...getStockInfosWithCurrentPrice(newState.stockInfos, newState.currentStockPrices)];
     newState.totalPurchasePrice = getTotalPurchaseSum(newState.stockInfos);
     newState.groupedStockInfos = getGroupStockInfos(newState.stockInfos, state.currentStockPrices);
     newState.totalPriceForNow = getTotalSumNow(newState.groupedStockInfos);
@@ -53,8 +58,10 @@ export const stockInfoReducer = createReducer(
   on(deleteStockInfoAPISuccess, (state, { id }) => {
     const newStockInfos = state.stockInfos.filter(x => x.id !== id);
     let newState = { ...state, stockInfos: newStockInfos };
-    newState.totalPurchasePrice = getTotalPurchaseSum(newState.stockInfos)
+
+    newState.stockInfos = [...getStockInfosWithCurrentPrice(newState.stockInfos, newState.currentStockPrices)];
     newState.groupedStockInfos = getGroupStockInfos(newState.stockInfos, state.currentStockPrices);
+    newState.totalPurchasePrice = getTotalPurchaseSum(newState.stockInfos)
     newState.totalPriceForNow = getTotalSumNow(newState.groupedStockInfos);
 
     return newState;
@@ -62,10 +69,10 @@ export const stockInfoReducer = createReducer(
   on(refreshCurrentStockPricesAPISuccess, (state, { currentStockPrices }) => {
     let newState = {
       ...state,
-      stockInfos: [...state.stockInfos],
       currentStockPrices: currentStockPrices
     };
 
+    newState.stockInfos = [...getStockInfosWithCurrentPrice(newState.stockInfos, newState.currentStockPrices)];
     newState.groupedStockInfos = [...getGroupStockInfos(newState.stockInfos, currentStockPrices)];
     newState.totalPriceForNow = getTotalSumNow(newState.groupedStockInfos);
 
@@ -85,6 +92,20 @@ function getTotalSumNow(groupedStockInfo: GroupedStockInfo[]) {
     (sum, current) => sum + (current.priceNow * current.quantity),
     0
   );
+}
+
+function getStockInfosWithCurrentPrice(stockInfos: StockInfoDto[], currentStockPrices: CurrentStockPrice[]) {
+  let resultStockInfos: StockInfoDto[] = [];
+
+  for (let stockInfo of stockInfos) {
+    const currentPrice = currentStockPrices.find(x =>
+      x.tickerName.toLocaleLowerCase() === stockInfo.tickerName.toLocaleLowerCase()
+    )?.price || 0;
+
+    resultStockInfos.push({ ...stockInfo, currentPrice: currentPrice });
+  }
+
+  return resultStockInfos;
 }
 
 function getGroupStockInfos(stockInfos: StockInfoDto[], currentStockPrices: CurrentStockPrice[]) {
