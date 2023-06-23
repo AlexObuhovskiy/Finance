@@ -7,6 +7,7 @@ namespace Finance.DataModel.DataAccess;
 public class DataContext : DbContext
 {
     public DbSet<StockInfo> StockInfos { get; set; }
+    public DbSet<StockMarketInfo> StockMarketInfos { get; set; }
 
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
@@ -20,13 +21,17 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<StockInfo>().Property(x => x.Quantity).HasPrecision(18, 5);
-        modelBuilder.Entity<StockInfo>().Property(x => x.PurchasePrice).HasPrecision(18, 5);
-        base.OnModelCreating(modelBuilder);
-    }
+        modelBuilder.Entity<StockInfo>()
+            .Property(x => x.Quantity)
+            .HasPrecision(18, 5);
+        modelBuilder.Entity<StockInfo>()
+            .Property(x => x.PurchasePrice)
+            .HasPrecision(18, 5);
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
+        modelBuilder.Entity<StockMarketInfo>()
+            .Property(x => x.Price)
+            .HasPrecision(18, 5);
+
+        base.OnModelCreating(modelBuilder);
     }
 }
